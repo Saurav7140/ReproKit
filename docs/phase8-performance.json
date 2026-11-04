@@ -1,0 +1,15 @@
+{
+  "fixture": "80 buttons, 30 frames changing all text/margins; one warm-up; unthrottled local Chromium",
+  "browser": "156.0.8078.4",
+  "cpu": "AMD Ryzen 7 7435HS                             ",
+  "memoryGiB": 16,
+  "baselineFrameMedianMs": 6,
+  "baselineFrameP95Ms": 6.299999952316284,
+  "recordingFrameMedianMs": 17.700000047683716,
+  "recordingFrameP95Ms": 29.799999952316284,
+  "startupMs": 985.4148999999998,
+  "stopMs": 337.0825,
+  "longestSourceTaskMs": 0,
+  "sourceHeapDeltaMiB": 3.1470260620117188,
+  "reportBytes": 3911504
+}

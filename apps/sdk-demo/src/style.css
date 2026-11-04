@@ -1,0 +1,11 @@
+.sdk-controls { border:1px solid var(--border); border-radius:var(--radius-card); background:var(--surface); padding:20px 24px; margin:24px 0; }
+.sdk-sample .panel { padding:24px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-card); }
+.sdk-sample .panel p { margin:8px 0 16px; }
+.sdk-sample .demo-grid { align-items:start; }
+.sdk-sample header .brand { flex-wrap:wrap; }
+.sdk-controls p+p,.sdk-controls .capture-actions { margin-top:12px; }
+.sdk-consent { max-width:780px; display:grid; gap:12px; }
+.sdk-check { display:flex; align-items:flex-start; gap:10px; font-weight:400; }
+.sdk-check input { width:18px; height:18px; flex:none; margin-top:3px; }
+.sdk-diagnostics { display:flex; flex-wrap:wrap; gap:12px; margin:24px 0; }
+@media(max-width:640px){.sdk-controls,.sdk-sample .panel{padding:16px;}.sdk-controls .section-heading{align-items:stretch;}.sdk-sample .section-heading{flex-direction:column;align-items:flex-start;}}

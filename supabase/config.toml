@@ -1,0 +1,17 @@
+project_id = "reprokit"
+
+[functions.reprokit-public]
+verify_jwt = false
+# Separate write-only public key/origin intake; never returns report content or private URLs.
+
+[functions.reprokit]
+verify_jwt = false
+# The handler verifies the bearer token with Auth.getUser on every user request.
+
+[auth]
+site_url = "http://127.0.0.1:5173"
+additional_redirect_urls = ["http://127.0.0.1:5173/?view=hosted", "http://127.0.0.1:5173/?view=hosted&recovery=1"]
+
+[auth.email]
+enabled = true
+enable_confirmations = true

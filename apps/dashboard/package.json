@@ -1,0 +1,18 @@
+{
+  "name": "@reprokit/dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "build": "vite build && vite build --config ../shared/vite.replay.config.ts",
+    "preview": "vite preview --host 127.0.0.1 --port 5173 --strictPort"
+  },
+  "dependencies": {
+    "@reprokit/core": "0.1.0",
+    "@rrweb/replay": "2.2.0",
+    "@supabase/supabase-js": "2.118.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  }
+}

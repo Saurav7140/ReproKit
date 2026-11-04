@@ -1,0 +1,5 @@
+{
+  "name": "@reprokit/recorder", "version": "0.1.0", "private": true, "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": { "@reprokit/core": "0.1.0", "@rrweb/record": "2.2.0", "zod": "4.6.7" }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@reprokit/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/report.ts",
+    "./fixture": "./fixtures/web-report.json",
+    "./privacy": "./src/privacy.ts"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  }
+}

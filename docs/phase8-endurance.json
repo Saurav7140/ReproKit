@@ -1,0 +1,10 @@
+{
+  "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+  "elapsedMs": 300259,
+  "reportDurationMs": 300000,
+  "bytes": 1975128,
+  "timelineEvents": 2,
+  "replayEvents": 902,
+  "endReason": "duration-limit",
+  "uploads": 0
+}

@@ -1,0 +1,15 @@
+.appearance-label { display:block;font-size:12px;font-weight:400;margin-bottom:8px;color:var(--muted); }
+.appearance-options { display:flex;align-items:center;gap:8px; }
+.appearance-toggle { position:relative;display:flex;flex:none;padding:4px;border:1px solid var(--control);border-radius:999px;background:var(--active); }
+.appearance-toggle button,.appearance-system { display:grid;place-items:center;flex:none;width:44px;height:44px;padding:0;border:0;border-radius:50%;color:var(--muted);background:transparent;cursor:pointer; }
+.appearance-toggle button { position:relative; }
+.appearance-options button .workspace-icon { width:21px;height:21px; }
+.appearance-thumb { position:absolute;left:5px;top:5px;width:44px;height:44px;border-radius:50%;background:var(--accent); }
+.appearance-toggle[data-mode='dark'] .appearance-thumb { transform:translateX(44px); }
+.appearance-toggle [aria-pressed='true'] { color:var(--surface); }
+.appearance-system { border:1px solid var(--border);border-radius:8px; }
+.appearance-system[aria-pressed='true'] { background:var(--active);color:var(--text);border-color:var(--control); }
+@media(hover:hover) and (pointer:fine) {
+  .appearance-toggle button[aria-pressed='false']:hover { color:var(--text); }
+  .appearance-system:hover { background:var(--active);color:var(--text);border-color:var(--control); }
+}

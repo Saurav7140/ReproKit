@@ -1,0 +1,47 @@
+{
+  "name": "reprokit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22.12.0",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "dev": "npm run dev -w @reprokit/dashboard",
+    "dev:demo": "npm run dev -w @reprokit/demo",
+    "dev:sdk": "npm run dev -w @reprokit/sdk-demo",
+    "dev:extension": "npm run dev -w @reprokit/extension",
+    "build": "npm run build --workspaces --if-present && npm run build:hosted",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test packages/core/src/*.test.ts packages/recorder/src/*.test.ts supabase/tests/*.test.ts",
+    "test:browser": "playwright test tests/foundation.spec.ts tests/capture.spec.ts tests/investigation.spec.ts tests/reproduction.spec.ts tests/rrweb-feasibility.spec.ts tests/hosted.spec.ts tests/connection.spec.ts tests/sdk.spec.ts tests/hardening.spec.ts tests/dashboard.spec.ts",
+    "test:browsers": "node --import tsx scripts/verify-browsers.ts",
+    "test:performance": "playwright test tests/performance.spec.ts",
+    "test:clean": "node scripts/verify-clean.mjs",
+    "check": "npm run typecheck && npm run build && npm test",
+    "build:hosted": "vite build --config supabase/vite.validation.config.ts",
+    "test:hosted": "node --env-file-if-exists=apps/dashboard/.env.local --env-file-if-exists=supabase/.env.test --import tsx supabase/tests/live.ts",
+    "test:sdk:live": "node --env-file-if-exists=apps/dashboard/.env.local --env-file-if-exists=supabase/.env.test --import tsx supabase/tests/live-sdk.ts"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.15",
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "@fontsource/ibm-plex-sans": "5.3.0",
+    "@playwright/test": "1.64.1",
+    "@rrweb/record": "2.2.0",
+    "@types/chrome": "0.3.7",
+    "@types/node": "26.6.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.2.1",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vite": "8.3.5"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@reprokit/extension",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5175 --strictPort",
+    "build": "vite build && vite build --config vite.capture.config.ts --mode content && vite build --config vite.capture.config.ts --mode page && vite build --config ../shared/vite.replay.config.ts"
+  },
+  "dependencies": {
+    "@reprokit/core": "0.1.0",
+    "@reprokit/recorder": "0.1.0",
+    "@rrweb/replay": "2.2.0",
+    "@supabase/supabase-js": "2.118.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  }
+}

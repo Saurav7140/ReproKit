@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "ReproKit",
+  "version": "0.6.0",
+  "minimum_chrome_version": "120",
+  "description": "Explicit selected-tab capture with masking, local memory and no automatic upload.",
+  "permissions": ["activeTab", "scripting"],
+  "action": { "default_popup": "index.html", "default_title": "ReproKit — not recording" },
+  "web_accessible_resources": [{ "resources": ["replay.js", "replay.css"], "matches": ["<all_urls>"] }],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'; connect-src 'none'; img-src 'self' data:; style-src 'self'; style-src-attr 'unsafe-inline'; font-src 'self'; frame-src data:"
+  }
+}

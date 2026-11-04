@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "id": "4f5ae3d2-8f83-4bb2-bc6b-a25e67141a5f",
+  "source": { "platform": "web", "method": "manual" },
+  "title": "Checkout submit leaves the form unchanged",
+  "description": "Synthetic contract fixture. Hand-authored evidence for foundation verification; this was not captured by the extension.",
+  "capture": { "startedAt": "2026-11-03T09:00:00.000Z", "endedAt": "2026-11-03T09:00:04.000Z" },
+  "environment": { "os": "unknown", "browser": { "family": "Chromium", "majorVersion": 148 }, "viewport": { "width": 1440, "height": 900 } },
+  "capabilities": { "interactions": "available", "replay": "unavailable", "errors": "available", "requests": "available", "environment": "available", "playwright": "unavailable" },
+  "timeline": [
+    { "atMs": 0, "kind": "capture-start", "label": "Synthetic session begins" },
+    { "atMs": 1000, "kind": "interaction", "label": "Click Submit order" },
+    { "atMs": 1020, "kind": "error", "label": "Demo checkout exception" },
+    { "atMs": 2000, "kind": "request", "label": "GET /api/fail-fetch returned 503" },
+    { "atMs": 4000, "kind": "capture-stop", "label": "Synthetic session ends" }
+  ],
+  "evidence": {
+    "kind": "web",
+    "page": { "url": "http://127.0.0.1:5174/" },
+    "actions": [{ "atMs": 1000, "type": "click", "target": "Submit order", "locator": { "kind": "testId", "value": "submit-order" }, "valueMasked": true }],
+    "errors": [{ "atMs": 1020, "type": "exception", "message": "Demo checkout exception", "stack": "Error: Demo checkout exception\n    at checkout ([sanitized]:1:1)" }],
+    "failedRequests": [{ "atMs": 2000, "transport": "fetch", "method": "GET", "url": "http://127.0.0.1:5174/api/fail-fetch", "status": 503, "outcome": "http-error" }]
+  },
+  "suggestedSteps": [],
+  "limitations": ["Synthetic fixture, not a captured session.", "DOM replay and test generation are unavailable in this foundation build.", "Replay cannot restore authentication or backend state."]
+}
