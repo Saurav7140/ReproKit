@@ -4,7 +4,7 @@ Turn bugs into reproducible developer reports.
 
 ReproKit is a browser extension and dashboard for capturing a bug in a web app and handing it to a developer with the evidence attached. You record a tab, reproduce the problem, review what was captured, and export a single `.reprokit.json` file. No account or backend is required.
 
-![ReproKit dashboard](docs/screenshots/dashboard-overview-dark-1440.png)
+![ReproKit dashboard](docs/screenshots/workbench-overview-dark.png)
 
 ## What a report contains
 

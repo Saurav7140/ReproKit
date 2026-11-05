@@ -1,0 +1,28 @@
+/* Hallmark · shape: app screen · genre: modern-minimal · theme: brand · redesign: full · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R5 V3 · weakest: V, retain the familiar app foundations */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { overflow-x: clip; }
+:root { background: var(--ground); color: var(--text); scrollbar-color: var(--control) var(--ground); }
+body { margin: 0; background: var(--ground); color: var(--text); font: var(--text-md)/1.6 var(--font-body); font-synthesis: none; caret-color: var(--accent); }
+::selection { background: var(--accent-soft); color: var(--text); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+button, input, select, textarea { font: inherit; }
+button, a, summary { -webkit-tap-highlight-color: transparent; }
+button:disabled, input:disabled, select:disabled, textarea:disabled { cursor: not-allowed; opacity: .6; background: var(--raised); color: var(--muted); }
+button:active:not(:disabled), .button:active:not(:disabled) { transform: translateY(1px); }
+h1, h2, h3 { min-width: 0; overflow-wrap: break-word; font-family: var(--font-display); font-weight: 600; color: var(--text); text-wrap: balance; }
+h1 { font-size: var(--text-3xl); letter-spacing: var(--tracking-display); line-height: 1.25; }
+h2 { font-size: var(--text-xl); line-height: 1.4; }
+h3 { font-size: var(--text-lg); line-height: 1.4; }
+p { text-wrap: pretty; }
+code, pre, .source-editor { font-family: var(--font-outlier); }
+input, textarea, select { border-color: var(--control); background: var(--surface); color: var(--text); caret-color: var(--accent); }
+input::placeholder, textarea::placeholder { color: var(--muted); }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+input:not([type='range']):hover:not(:disabled), textarea:hover:not(:disabled), select:hover:not(:disabled) { background: var(--raised); }
+dialog { max-width: min(520px, calc(100% - 32px)); color: var(--text); background: var(--surface); }
+dialog::backdrop { background: var(--backdrop); }
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

@@ -48,42 +48,59 @@ test('extension investigation explains the first steps, supports themes and keep
   }finally{await context.close();}
 });
 
-test('dashboard imports, replays and isolates a valid v2 security fixture', async ({ page, context }) => {
-  await page.goto('http://127.0.0.1:5173/');
-  await importReport(page, replayFixture());
-  await expect(page.getByRole('heading', { name: 'Synthetic replay security fixture' })).toBeVisible();
-  await page.getByRole('button', { name: 'Replay', exact: true }).click();
-  const region = page.getByRole('region', { name: 'DOM replay', exact: true });
-  await expect(region.getByText('This older recording has no captured page styling.', { exact: false })).toBeVisible();
-  await expect(region.getByRole('status')).toHaveText('Replay paused', { timeout: 15_000 });
-  const outer = page.frames().find((frame) => frame.url().startsWith('data:text/html'))!;
-  const inner = outer.childFrames()[0]!;
-  await expect(inner.locator('body')).toContainText('[masked]');
-  const isolation = await outer.evaluate(() => {
-    let parentBlocked = false;
-    try { void parent.document.body; } catch { parentBlocked = true; }
-    return { parentBlocked, origin: self.origin, scripts: document.querySelector('iframe')?.sandbox.contains('allow-scripts'), runtime: typeof (window as typeof window & { chrome?: { runtime?: unknown } }).chrome?.runtime };
+for (const viewer of ['dashboard', 'extension']) {
+  test(`${viewer} imports, replays and isolates a valid v2 security fixture`, async ({ page: dashboardPage, context: dashboardContext }) => {
+    const extension = viewer === 'extension' ? await launch() : null;
+    const page = extension ? await extension.newPage() : dashboardPage;
+    const context = extension ?? dashboardContext;
+    try {
+      await page.goto(extension ? `chrome-extension://${extensionId}/review.html` : 'http://127.0.0.1:5173/');
+      await importReport(page, replayFixture());
+      await expect(page.getByRole('heading', { name: 'Synthetic replay security fixture' })).toBeVisible();
+      await page.getByRole('button', { name: 'Replay', exact: true }).click();
+      const region = page.getByRole('region', { name: 'DOM replay', exact: true });
+      await expect(region.getByText('This older recording has no captured page styling.', { exact: false })).toBeVisible();
+      await expect(region.getByRole('status')).toHaveText('Replay paused', { timeout: 15_000 });
+      const outer = page.frames().find((frame) => frame.url().startsWith('data:text/html'))!;
+      const inner = outer.childFrames()[0]!;
+      await expect(inner.locator('body')).toContainText('[masked]');
+      const isolation = await outer.evaluate(() => {
+        let parentBlocked = false;
+        try { void parent.document.body; } catch { parentBlocked = true; }
+        return { parentBlocked, origin: self.origin, scripts: document.querySelector('iframe')?.sandbox.contains('allow-scripts'), runtime: typeof (window as typeof window & { chrome?: { runtime?: unknown } }).chrome?.runtime };
+      });
+      expect(isolation).toEqual({ parentBlocked: true, origin: 'null', scripts: false, runtime: 'undefined' });
+      expect(await page.locator('iframe[title="Isolated DOM session replay"]').evaluate((element) => (element as HTMLIFrameElement).contentDocument === null)).toBe(true);
+      let networkRequests = 0;
+      await context.route('http://127.0.0.1:5174/replay-probe', (route) => { networkRequests++; return route.fulfill({ body: 'unexpected', headers: { 'access-control-allow-origin': '*' } }); });
+      expect(await outer.evaluate(async () => { try { await fetch('http://127.0.0.1:5174/replay-probe'); return false; } catch { return true; } })).toBe(true);
+      expect(networkRequests).toBe(0);
+      const scriptsRan = await outer.evaluate(() => new Promise<boolean>((resolve) => {
+        let ran = false; const listener = (event: MessageEvent) => { if (event.data === 'REPLAY_SCRIPT_RAN') ran = true; };
+        addEventListener('message', listener);
+        const script = document.createElement('script'); script.textContent = "parent.postMessage('REPLAY_SCRIPT_RAN', '*')";
+        document.querySelector('iframe')!.contentDocument!.body.append(script);
+        setTimeout(() => { removeEventListener('message', listener); resolve(ran); }, 100);
+      }));
+      expect(scriptsRan).toBe(false);
+      await region.getByRole('button', { name: 'Play replay' }).click();
+      await expect(region.getByRole('button', { name: 'Pause replay' })).toBeEnabled();
+      await expect.poll(async () => Number(await region.getByLabel('Replay position').inputValue())).toBeGreaterThan(0);
+      await region.getByRole('button', { name: 'Pause replay' }).click();
+      await region.getByLabel('Replay position').focus(); await page.keyboard.press('End');
+      await expect(inner.locator('span')).toHaveCount(1);
+      await page.keyboard.press('Home');
+      await expect(region.getByLabel('Replay position')).toHaveValue('0');
+      await expect(inner.locator('span')).toHaveCount(0);
+      await page.keyboard.press('ArrowRight');
+      await expect(region.getByLabel('Replay position')).toHaveValue('1');
+      await region.getByRole('button', { name: 'Play replay' }).click();
+      await expect(region.getByRole('button', { name: 'Pause replay' })).toBeEnabled();
+      await expect(region.getByRole('button', { name: 'Play replay' })).toBeEnabled({ timeout: 6000 });
+      await expect(region.getByLabel('Replay position')).toHaveValue('4000');
+    } finally { await extension?.close(); }
   });
-  expect(isolation).toEqual({ parentBlocked: true, origin: 'null', scripts: false, runtime: 'undefined' });
-  expect(await page.locator('iframe[title="Isolated DOM session replay"]').evaluate((element) => (element as HTMLIFrameElement).contentDocument === null)).toBe(true);
-  let networkRequests = 0;
-  await context.route('http://127.0.0.1:5174/replay-probe', (route) => { networkRequests++; return route.fulfill({ body: 'unexpected', headers: { 'access-control-allow-origin': '*' } }); });
-  expect(await outer.evaluate(async () => { try { await fetch('http://127.0.0.1:5174/replay-probe'); return false; } catch { return true; } })).toBe(true);
-  expect(networkRequests).toBe(0);
-  const scriptsRan = await outer.evaluate(() => new Promise<boolean>((resolve) => {
-    let ran = false; const listener = (event: MessageEvent) => { if (event.data === 'REPLAY_SCRIPT_RAN') ran = true; };
-    addEventListener('message', listener);
-    const script = document.createElement('script'); script.textContent = "parent.postMessage('REPLAY_SCRIPT_RAN', '*')";
-    document.querySelector('iframe')!.contentDocument!.body.append(script);
-    setTimeout(() => { removeEventListener('message', listener); resolve(ran); }, 100);
-  }));
-  expect(scriptsRan).toBe(false);
-  await region.getByRole('button', { name: 'Play replay' }).click();
-  await expect(region.getByRole('button', { name: 'Pause replay' })).toBeEnabled();
-  await region.getByRole('button', { name: 'Pause replay' }).click();
-  await region.getByLabel('Replay position').focus(); await page.keyboard.press('End');
-  await expect(inner.locator('span')).toHaveCount(1);
-});
+}
 
 test('real capture exports and imports into clean account-free dashboard and extension viewers', async ({ browser }, testInfo) => {
   const producer = await launch();

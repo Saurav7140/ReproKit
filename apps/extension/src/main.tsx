@@ -1,9 +1,9 @@
+import '../../shared/style.css';
 import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { CapturePage } from './CapturePage';
 import { Mark } from '../../shared/Mark';
 import { CaptureController } from './controller';
-import '../../shared/style.css';
 
 const isReview = window.location.pathname.endsWith('/review.html');
 const extension = typeof chrome !== 'undefined' && Boolean(chrome.runtime?.id);

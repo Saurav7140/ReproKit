@@ -18,6 +18,10 @@ The investigation refresh uses the same neutral framed surfaces, IBM Plex, teal 
 
 Project rows pair a flexible project-name button with a permanent visible trash affordance, including a descriptive accessible label and focus state. Deletion first opens the shared native confirmation focused on Cancel; no deletion starts from the icon alone. Phone targets are 44px. The operation can remove multiple hosted reports and is described as irreversible and potentially partial if interrupted. The owner function refuses to remove projects with remaining report metadata. [Checks and screenshots](docs/verification-investigation-projects.md).
 
+## Exports
+
+The approved Hallmark redesign exports the existing ReproKit brand through `apps/shared/hallmark/tokens.css`, with shared foundations in `base.css` and evidence presentation in `workbench.css`. Dashboard and investigation share these tokens. Overview leads with a report intake row and example action; investigation uses compact metadata and a vertical evidence rail that wraps on phones. Recording keeps Stop and Discard above supporting guidance. The brand, privacy model and application wiring remain the existing system. [Checks and screenshots](docs/verification-workbench.md).
+
 ## Earlier phase decisions (historical)
 
 Phase 8 keeps the same Framed sheet/IBM Plex direction. The bounded review corrects empty-state bottom spacing and native confirmation focus restoration, with desktop/tablet/phone report screenshots and actual Chrome/Edge replay. No layout redraw or motion was added. Source and production inspectors, keyboard labels/focus/return and overflow checks are recorded in [Phase 8 verification](docs/verification-phase8.md).
